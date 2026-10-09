@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COASTGUARD — Coastal Plastic Intelligence Platform</title>
+  <meta name="description" content="COASTGUARD: AI-powered coastal plastic interception, recovery and circularity intelligence platform. From leakage to circular value.">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     LOGIN SCREEN
+═══════════════════════════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-bg-grid"></div>
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-icon">🌊</div>
+      <h1>COASTGUARD</h1>
+      <p>COASTAL PLASTIC INTELLIGENCE PLATFORM</p>
+    </div>
+    <div class="login-tagline">LEAKAGE → INTELLIGENCE → ACTION → VALUE</div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" placeholder="Enter username" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" placeholder="Enter password" autocomplete="current-password">
+      </div>
+      <div id="login-error" style="display:none;font-size:11px;color:var(--status-critical);margin-top:8px;padding:8px;background:var(--status-critical-dim);border-radius:4px;"></div>
+      <button type="submit" class="btn-login" id="btn-login">SIGN IN →</button>
+    </form>
+
+    <div class="login-demo-hint" id="login-demo-hint" style="cursor:pointer;" title="Click to auto-fill">
+      Demo: admin / coastguard
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     MAIN APPLICATION
+═══════════════════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- ─── SIDEBAR ─────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">
+        <div class="logo-icon-sm">🌊</div>
+        <div>
+          <div class="logo-text-sm">COASTGUARD</div>
+          <div class="logo-sub">Intelligence Platform</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-status">
+      <div class="status-dot" id="sidebar-status-dot"></div>
+      <span class="status-text">SYSTEM OPERATIONAL</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">INTELLIGENCE</div>
+
+      <div class="nav-item active" data-page="command-center">
+        <span class="nav-num">01</span>
+        <span class="nav-icon">⌖</span>
+        <span class="nav-label">Command Center</span>
+      </div>
+
+      <div class="nav-item" data-page="live-monitoring">
+        <span class="nav-num">02</span>
+        <span class="nav-icon">◉</span>
+        <span class="nav-label">Live Monitoring</span>
+        <span class="nav-badge warning">8</span>
+      </div>
+
+      <div class="nav-item" data-page="hotspot-intelligence">
+        <span class="nav-num">03</span>
+        <span class="nav-icon">◈</span>
+        <span class="nav-label">Hotspot Intelligence</span>
+        <span class="nav-badge">3</span>
+      </div>
+
+      <div class="nav-item" data-page="ai-vision">
+        <span class="nav-num">04</span>
+        <span class="nav-icon">◧</span>
+        <span class="nav-label">AI Vision</span>
+      </div>
+
+      <div class="nav-item" data-page="decision-engine">
+        <span class="nav-num">05</span>
+        <span class="nav-icon">⊛</span>
+        <span class="nav-label">Decision Engine</span>
+      </div>
+
+      <div class="nav-section-label" style="margin-top:8px;">OPERATIONS</div>
+
+      <div class="nav-item" data-page="interventions">
+        <span class="nav-num">06</span>
+        <span class="nav-icon">⚡</span>
+        <span class="nav-label">Interventions</span>
+        <span class="nav-badge">2</span>
+      </div>
+
+      <div class="nav-item" data-page="recovery-circularity">
+        <span class="nav-num">07</span>
+        <span class="nav-icon">♻</span>
+        <span class="nav-label">Recovery & Circularity</span>
+      </div>
+
+      <div class="nav-section-label" style="margin-top:8px;">INSIGHTS</div>
+
+      <div class="nav-item" data-page="analytics">
+        <span class="nav-num">08</span>
+        <span class="nav-icon">▦</span>
+        <span class="nav-label">Analytics</span>
+      </div>
+
+      <div class="nav-item" data-page="field-nodes">
+        <span class="nav-num">09</span>
+        <span class="nav-icon">⬡</span>
+        <span class="nav-label">Field Nodes</span>
+      </div>
+
+      <div class="nav-section-label" style="margin-top:8px;">CONFIGURATION</div>
+
+      <div class="nav-item" data-page="settings">
+        <span class="nav-num">10</span>
+        <span class="nav-icon">⚙</span>
+        <span class="nav-label">Settings</span>
+      </div>
+
+      <div class="nav-section-label" style="margin-top:8px;">DEMO</div>
+
+      <div class="nav-item" data-page="demo-mode">
+        <span class="nav-num">11</span>
+        <span class="nav-icon">▶</span>
+        <span class="nav-label">Judge Demo Mode</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      ⚠ ALL DATA SIMULATED<br>
+      v1.0.0-DEMO · COASTGUARD
+    </div>
+  </aside>
+
+  <!-- ─── MAIN AREA ─────────────────────────────────────────── -->
+  <div class="main-area">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-title-group">
+        <div class="topbar-title" id="topbar-page-title">COMMAND CENTER</div>
+        <div class="topbar-desc" id="topbar-page-desc">Real-time coastal leakage intelligence and response overview</div>
+      </div>
+
+      <div class="topbar-clock" id="topbar-clock">--:--:--</div>
+
+      <span class="badge-demo">DEMO ENVIRONMENT</span>
+
+      <div id="sim-toggle" class="sim-toggle" title="Toggle live chart updates">
+        <div class="sim-indicator"></div>
+        <span class="sim-label">SIMULATION</span>
+      </div>
+
+      <select class="select-control" id="sim-mode-select" title="Simulation scenario">
+        <option value="normal">Normal</option>
+        <option value="monsoon">Monsoon Event</option>
+        <option value="plastic_surge">Plastic Surge</option>
+        <option value="node_failure">Node Failure</option>
+        <option value="recovery">Recovery Event</option>
+      </select>
+
+      <div class="topbar-icon-btn" id="btn-notif" title="Notifications">
+        🔔
+        <span class="notif-badge" id="notif-badge">0</span>
+      </div>
+
+      <div class="user-badge">
+        <div class="user-avatar" id="user-avatar">A</div>
+        <span class="user-name" id="user-name">ADMIN</span>
+      </div>
+    </header>
+
+    <!-- PAGE AREA -->
+    <div class="page-area bg-grid">
+
+      <!-- ══════════════════════════════════════════════
+           PAGE: COMMAND CENTER
+      ══════════════════════════════════════════════ -->
+      <div class="page" id="page-command-center">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div>
+              <div class="page-title">COASTGUARD COMMAND CENTER</div>
+              <div class="page-subtitle">Coastal Plastic Intelligence — Real-Time Operations Hub</div>
+              <div class="sim-badge">⚠ SIMULATED DEMO DATA</div>
+            </div>
+            <div class="flex gap-sm">
+              <button class="btn btn-ghost btn-sm" onclick="navigateTo('demo-mode')">▶ Run Demo</button>
+              <button class="btn btn-outline btn-sm" onclick="navigateTo('hotspot-intelligence')">View All Hotspots</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card critical">
+            <div class="kpi-label">Active Hotspots</div>
+            <div class="kpi-value critical" id="kpi-active-hotspots">—</div>
+            <div class="kpi-sub"><span class="kpi-trend-up">↑</span> Real-time</div>
+          </div>
+          <div class="kpi-card warning">
+            <div class="kpi-label">Plastic Detected (Index)</div>
+            <div class="kpi-value warning" id="kpi-plastic-detected">—</div>
+            <div class="kpi-sub">All nodes · <span class="sim-badge" style="font-size:8px;padding:1px 4px;">SIM</span></div>
+          </div>
+          <div class="kpi-card critical">
+            <div class="kpi-label">High Priority Sites</div>
+            <div class="kpi-value" id="kpi-high-priority">—</div>
+            <div class="kpi-sub">Score ≥ 70</div>
+          </div>
+          <div class="kpi-card info">
+            <div class="kpi-label">Active Interventions</div>
+            <div class="kpi-value" id="kpi-active-interventions">—</div>
+            <div class="kpi-sub">Field teams deployed</div>
+          </div>
+          <div class="kpi-card success">
+            <div class="kpi-label">Recovery Quantity</div>
+            <div class="kpi-value success" id="kpi-recovery">—</div>
+            <div class="kpi-sub kpi-unit">kg · this month <span class="sim-badge" style="font-size:8px;padding:1px 4px;">SIM</span></div>
+          </div>
+          <div class="kpi-card success">
+            <div class="kpi-label">Field Nodes Online</div>
+            <div class="kpi-value success" id="kpi-nodes-online">—</div>
+            <div class="kpi-sub">Active sensors</div>
+          </div>
+        </div>
+
+        <!-- Main Grid: Map + Priority Alerts -->
+        <div class="two-col" style="margin-bottom:16px;">
+          <!-- Map -->
+          <div>
+            <div class="panel-header" style="margin-bottom:8px;background:transparent;border:none;padding:0;">
+              <span class="panel-title">LEAKAGE HOTSPOT MAP</span>
+              <span class="sim-badge">SIMULATED</span>
+            </div>
+            <div class="map-container" style="height:420px;">
+              <div id="cc-map" style="height:100%;width:100%;"></div>
+              <div class="map-overlay-label">COASTGUARD — DEMO MAP</div>
+            </div>
+          </div>
+
+          <!-- Priority Alerts & Decision Summary -->
+          <div>
+            <!-- Decision Summary Card -->
+            <div class="panel" style="margin-bottom:12px;border-left:4px solid var(--status-critical);">
+              <div class="panel-header" style="padding:10px 14px;">
+                <span class="panel-title" style="font-size:10px;">DECISION SUMMARY — CURRENT PRIORITY</span>
+                <span id="cc-dec-tag" class="recommendation-tag act-now">ACT NOW</span>
+              </div>
+              <div class="panel-body" style="padding:12px 14px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                  <div>
+                    <div style="font-size:9px;color:var(--text-muted);font-weight:700;letter-spacing:0.8px;">TARGET HOTSPOT</div>
+                    <div style="font-size:13px;font-weight:800;color:var(--accent-primary);" id="cc-dec-node">OUT-03 (Mithi River Outfall)</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:var(--status-critical);" id="cc-dec-score">87 <span style="font-size:11px;color:var(--text-muted);font-weight:500;">/ 100</span></div>
+                  </div>
+                </div>
+
+                <!-- Visual Factors -->
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px;text-align:center;">
+                  <div style="background:#f8fafc;padding:5px;border-radius:4px;border:1px solid #e2e8f0;">
+                    <div style="font-size:8px;color:var(--text-muted);font-weight:700;">SEVERITY</div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--status-critical);" id="cc-dec-sev">0.88</div>
+                  </div>
+                  <div style="background:#f8fafc;padding:5px;border-radius:4px;border:1px solid #e2e8f0;">
+                    <div style="font-size:8px;color:var(--text-muted);font-weight:700;">PERSISTENCE</div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--status-high);" id="cc-dec-per">0.82</div>
+                  </div>
+                  <div style="background:#f8fafc;padding:5px;border-radius:4px;border:1px solid #e2e8f0;">
+                    <div style="font-size:8px;color:var(--text-muted);font-weight:700;">EXPOSURE</div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--accent-cyan);" id="cc-dec-exp">0.92</div>
+                  </div>
+                  <div style="background:#f8fafc;padding:5px;border-radius:4px;border:1px solid #e2e8f0;">
+                    <div style="font-size:8px;color:var(--text-muted);font-weight:700;">FEASIBILITY</div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--accent-primary);" id="cc-dec-fea">0.85</div>
+                  </div>
+                </div>
+
+                <div style="font-size:10px;color:var(--text-muted);border-top:1px solid #f1f5f9;padding-top:6px;line-height:1.4;">
+                  AI recommends intervention priority. Final field action remains human-validated.
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-header" style="margin-bottom:8px;background:transparent;border:none;padding:0;">
+              <span class="panel-title">PRIORITY ALERTS</span>
+              <span class="live-indicator"><span class="live-dot"></span>LIVE</span>
+            </div>
+            <div id="cc-priority-alerts" style="display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:220px;">
+              <div class="text-muted text-sm" style="padding:16px;text-align:center;">Loading...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry Chart + Event Log -->
+        <div class="two-col-equal" style="margin-bottom:16px;">
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">TELEMETRY TREND — OUT-07</span>
+              <span class="sim-badge">⚠ SIMULATED</span>
+            </div>
+            <div class="panel-body">
+              <div class="chart-wrapper" style="height:160px;">
+                <canvas id="cc-telemetry-chart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">REALTIME EVENT LOG</span>
+              <span class="live-indicator"><span class="live-dot"></span>LIVE</span>
+            </div>
+            <div class="panel-body no-pad" style="padding:8px 12px;overflow-y:auto;max-height:200px;">
+              <div id="cc-event-log" class="event-log"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry Bar -->
+        <div class="telemetry-bar">
+          <div class="telem-item">
+            <div class="telem-label">Water Level</div>
+            <div class="telem-value" id="telem-water">—</div>
+          </div>
+          <div class="telem-divider"></div>
+          <div class="telem-item">
+            <div class="telem-label">Flow Rate</div>
+            <div class="telem-value" id="telem-flow">—</div>
+          </div>
+          <div class="telem-divider"></div>
+          <div class="telem-item">
+            <div class="telem-label">Rainfall</div>
+            <div class="telem-value" id="telem-rain">—</div>
+          </div>
+          <div class="telem-divider"></div>
+          <div class="telem-item">
+            <div class="telem-label">Plastic Burden</div>
+            <div class="telem-value" id="telem-burden">—</div>
+          </div>
+          <div class="telem-divider"></div>
+          <div class="telem-item">
+            <div class="telem-label">Transport Risk</div>
+            <div class="telem-value" id="telem-risk">—</div>
+          </div>
+          <div class="telem-divider"></div>
+          <div class="telem-item">
+            <div class="telem-label">Temperature</div>
+            <div class="telem-value" id="telem-temp">—</div>
+          </div>
+          <div class="telem-divider"></div>
+          <div class="telem-item">
+            <div class="telem-label">Signal</div>
+            <div class="telem-value" id="telem-signal">—</div>
+          </div>
+        </div>
+
+        <!-- System Health Bar (Section 18) -->
+        <div class="panel" style="margin-top:14px;background:#ffffff;border:1px solid #e2e8f0;border-radius:var(--radius-md);box-shadow:var(--shadow-card);">
+          <div class="panel-header" style="padding:10px 14px;border-bottom:1px solid #f1f5f9;">
+            <span class="panel-title" style="font-size:11px;">SYSTEM HEALTH &amp; PLATFORM INTEGRITY</span>
+            <span class="badge badge-online" style="font-size:9px;">ALL SUBSYSTEMS NOMINAL</span>
+          </div>
+          <div class="panel-body" style="padding:10px 14px;">
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;text-align:center;">
+              <div style="background:#f8fafc;padding:8px 6px;border-radius:4px;border:1px solid #e2e8f0;">
+                <div style="font-size:8px;color:var(--text-muted);font-weight:700;letter-spacing:0.5px;">BACKEND</div>
+                <div style="font-size:11px;font-weight:800;color:var(--status-good);margin-top:2px;">CONNECTED</div>
+              </div>
+              <div style="background:#f8fafc;padding:8px 6px;border-radius:4px;border:1px solid #e2e8f0;">
+                <div style="font-size:8px;color:var(--text-muted);font-weight:700;letter-spacing:0.5px;">WEBSOCKET</div>
+                <div style="font-size:11px;font-weight:800;color:var(--status-good);margin-top:2px;" id="sys-ws-status">CONNECTED</div>
+              </div>
+              <div style="background:#f8fafc;padding:8px 6px;border-radius:4px;border:1px solid #e2e8f0;">
+                <div style="font-size:8px;color:var(--text-muted);font-weight:700;letter-spacing:0.5px;">SIMULATION</div>
+                <div style="font-size:11px;font-weight:800;color:var(--status-good);margin-top:2px;">RUNNING</div>
+              </div>
+              <div style="background:#f8fafc;padding:8px 6px;border-radius:4px;border:1px solid #e2e8f0;">
+                <div style="font-size:8px;color:var(--text-muted);font-weight:700;letter-spacing:0.5px;">GIS / MAP</div>
+                <div style="font-size:11px;font-weight:800;color:var(--status-good);margin-top:2px;">READY</div>
+              </div>
+              <div style="background:#f8fafc;padding:8px 6px;border-radius:4px;border:1px solid #e2e8f0;">
+                <div style="font-size:8px;color:var(--text-muted);font-weight:700;letter-spacing:0.5px;">AI VISION</div>
+                <div style="font-size:11px;font-weight:800;color:var(--accent-primary);margin-top:2px;">DEMO MODE</div>
+              </div>
+              <div style="background:#f8fafc;padding:8px 6px;border-radius:4px;border:1px solid #e2e8f0;">
+                <div style="font-size:8px;color:var(--text-muted);font-weight:700;letter-spacing:0.5px;">DECISION ENGINE</div>
+                <div style="font-size:11px;font-weight:800;color:var(--status-good);margin-top:2px;">ACTIVE</div>
+              </div>
+              <div style="background:#f8fafc;padding:8px 6px;border-radius:4px;border:1px solid #e2e8f0;">
+                <div style="font-size:8px;color:var(--text-muted);font-weight:700;letter-spacing:0.5px;">DATA MODE</div>
+                <div style="font-size:11px;font-weight:800;color:var(--status-high);margin-top:2px;">SIMULATED</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           PAGE: LIVE MONITORING
+      ══════════════════════════════════════════════ -->
+      <div class="page" id="page-live-monitoring">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div>
+              <div class="page-title">LIVE MONITORING</div>
+              <div class="page-subtitle">Real-time node surveillance and telemetry</div>
+              <div class="sim-badge">⚠ SIMULATED CAMERA FEED</div>
+            </div>
+            <select class="select-control" id="node-selector" style="min-width:260px;"></select>
+          </div>
+        </div>
+
+        <div class="two-col" style="margin-bottom:16px;">
+          <!-- Camera feed -->
+          <div>
+            <div class="panel-header" style="margin-bottom:8px;background:transparent;border:none;padding:0;">
+              <span class="panel-title" id="cam-title">CAM — OUT-07 LIVE FEED</span>
+              <span class="live-indicator"><span class="live-dot"></span>LIVE</span>
+            </div>
+            <div class="camera-feed">
+              <canvas class="camera-canvas" id="cam-canvas"></canvas>
+              <div class="camera-overlay">
+                <div class="cam-corner tl"></div>
+                <div class="cam-corner tr"></div>
+                <div class="cam-corner bl"></div>
+                <div class="cam-corner br"></div>
+                <div class="cam-hud">
+                  <div class="cam-label" id="cam-node-id">CAM-OUT-07</div>
+                  <div class="cam-label live">● LIVE</div>
+                  <div class="cam-label detection" id="cam-detection-status">Plastic Detection: ACTIVE</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Node panel -->
+          <div>
+            <div class="panel mb-md">
+              <div class="panel-header">
+                <div>
+                  <span class="text-mono text-accent" style="font-size:14px;font-weight:700;" id="mon-node-id">OUT-07</span>
+                  <span style="font-size:11px;color:var(--text-muted);margin-left:8px;" id="mon-node-name"></span>
+                </div>
+                <span class="live-indicator"><span class="live-dot"></span>LIVE</span>
+              </div>
+              <div class="panel-body">
+                <div style="font-size:10px;color:var(--text-muted);margin-bottom:12px;" id="mon-node-location"></div>
+
+                <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:8px;">ENVIRONMENTAL CONDITIONS</div>
+
+                <div style="margin-bottom:10px;">
+                  <div class="progress-label"><span>Water Level</span><span id="mon-water">—</span></div>
+                  <div class="progress-track"><div class="progress-fill" id="bar-water" style="width:50%"></div></div>
+                </div>
+                <div style="margin-bottom:10px;">
+                  <div class="progress-label"><span>Flow Rate</span><span id="mon-flow">—</span></div>
+                  <div class="progress-track"><div class="progress-fill" id="bar-flow" style="width:30%"></div></div>
+                </div>
+                <div style="margin-bottom:10px;">
+                  <div class="progress-label"><span>Rainfall</span><span id="mon-rain">—</span></div>
+                  <div class="progress-track"><div class="progress-fill warning" id="bar-rain" style="width:15%"></div></div>
+                </div>
+                <div style="margin-bottom:12px;">
+                  <div class="progress-label"><span>Plastic Burden</span><span id="mon-burden" class="text-critical font-bold">HIGH</span></div>
+                  <div class="progress-track" style="height:8px;"><div class="progress-fill critical" id="bar-burden" style="width:88%"></div></div>
+                </div>
+
+                <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:8px;">AI EVIDENCE</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                  <div style="background:var(--bg-elevated);border-radius:var(--radius-sm);padding:8px;">
+                    <div style="font-size:9px;color:var(--text-muted);">Confidence</div>
+                    <div class="text-mono font-bold text-accent" id="mon-confidence">—</div>
+                  </div>
+                  <div style="background:var(--bg-elevated);border-radius:var(--radius-sm);padding:8px;">
+                    <div style="font-size:9px;color:var(--text-muted);">Temperature</div>
+                    <div class="text-mono font-bold" id="mon-temp">—</div>
+                  </div>
+                  <div style="background:var(--bg-elevated);border-radius:var(--radius-sm);padding:8px;">
+                    <div style="font-size:9px;color:var(--text-muted);">Battery</div>
+                    <div class="text-mono font-bold text-accent" id="mon-battery">—</div>
+                  </div>
+                  <div style="background:var(--bg-elevated);border-radius:var(--radius-sm);padding:8px;">
+                    <div style="font-size:9px;color:var(--text-muted);">Node Status</div>
+                    <div class="badge badge-online" style="margin-top:2px;">ONLINE</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event log -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">REALTIME EVENT LOG</span>
+            <span class="live-indicator"><span class="live-dot"></span>LIVE</span>
+          </div>
+          <div class="panel-body no-pad" style="padding:8px 12px;max-height:180px;overflow-y:auto;">
+            <div id="mon-event-log" class="event-log"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           PAGE: HOTSPOT INTELLIGENCE
+      ══════════════════════════════════════════════ -->
+      <div class="page" id="page-hotspot-intelligence">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div>
+              <div class="page-title">HOTSPOT INTELLIGENCE</div>
+              <div class="page-subtitle">GIS-based leakage hotspot analysis and prioritization</div>
+              <div class="sim-badge">⚠ SIMULATED LOCATIONS</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+          <button class="filter-btn hs-filter-btn active" data-filter="all" onclick="HotspotIntelligence.setFilter('all')">All</button>
+          <button class="filter-btn hs-filter-btn critical" data-filter="critical" onclick="HotspotIntelligence.setFilter('critical')">Critical</button>
+          <button class="filter-btn hs-filter-btn high" data-filter="high" onclick="HotspotIntelligence.setFilter('high')">High</button>
+          <button class="filter-btn hs-filter-btn" data-filter="medium" onclick="HotspotIntelligence.setFilter('medium')">Medium</button>
+          <button class="filter-btn hs-filter-btn" data-filter="low" onclick="HotspotIntelligence.setFilter('low')">Low</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:320px 1fr 300px;gap:16px;height:calc(100vh - 240px);">
+          <!-- List -->
+          <div style="overflow-y:auto;" id="hotspot-list">
+            <div class="text-muted text-sm" style="padding:16px;text-align:center;">Loading...</div>
+          </div>
+
+          <!-- Map -->
+          <div class="map-container" style="height:100%;">
+            <div id="hotspot-map" style="height:100%;width:100%;"></div>
+            <div class="map-overlay-label">HOTSPOT MAP — SIMULATED</div>
+          </div>
+
+          <!-- Intel Panel -->
+          <div class="panel" id="hotspot-intel-panel" style="display:none;overflow-y:auto;">
+            <div class="panel-header">
+              <span class="panel-title">SELECT A HOTSPOT</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           PAGE: AI VISION
+      ══════════════════════════════════════════════ -->
+      <div class="page" id="page-ai-vision">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div>
+              <div class="page-title">AI VISION</div>
+              <div class="page-subtitle">Computer vision evidence for plastic leakage detection</div>
+              <div class="sim-badge">SIMULATED AI INFERENCE</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <!-- Left: Upload + Canvas -->
+          <div>
+            <div class="vision-upload-zone" id="vision-dropzone" style="margin-bottom:16px;">
+              <input type="file" id="vision-file-input" accept="image/*" style="display:none;">
+              <div class="vision-upload-icon">📸</div>
+              <div class="vision-upload-title">Upload Image for Detection</div>
+              <div class="vision-upload-sub">Drag & drop or click to browse · JPG, PNG, WebP</div>
+            </div>
+
+            <div class="panel" style="margin-bottom:16px;">
+              <div class="panel-header">
+                <span class="panel-title">DETECTION CANVAS</span>
+                <div class="flex gap-sm">
+                  <button class="btn btn-outline btn-sm" onclick="AIVision.useDemoImage()">📸 Load Demo Frame</button>
+                  <button class="btn btn-primary btn-sm" id="btn-run-detection" onclick="AIVision.runDetection()">▶ Run Detection</button>
+                  <button class="btn btn-ghost btn-sm" onclick="AIVision.clearDetection()">Clear</button>
+                </div>
+              </div>
+              <div class="panel-body no-pad" style="background:#040d12;">
+                <canvas id="vision-canvas" style="width:100%;height:320px;display:block;"></canvas>
+              </div>
+            </div>
+
+            <!-- Model info -->
+            <div style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:12px;">
+              <div style="font-size:9px;font-weight:600;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:8px;">MODEL CONFIGURATION</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div>
+                  <div style="font-size:9px;color:var(--text-muted);">Architecture</div>
+                  <div style="font-size:11px;color:var(--text-secondary);">YOLOv8-nano (simulated)</div>
+                </div>
+                <div>
+                  <div style="font-size:9px;color:var(--text-muted);">Classes</div>
+                  <div style="font-size:11px;color:var(--text-secondary);">5 plastic categories</div>
+                </div>
+                <div>
+                  <div style="font-size:9px;color:var(--text-muted);">Confidence Threshold</div>
+                  <div style="font-size:11px;color:var(--text-secondary);">0.75</div>
+                </div>
+                <div>
+                  <div style="font-size:9px;color:var(--text-muted);">Status</div>
+                  <div class="badge badge-warning">SIMULATED</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Detection results -->
+          <div>
+            <div class="panel" style="height:100%;">
+              <div class="panel-header">
+                <span class="panel-title">DETECTION RESULTS</span>
+                <span class="sim-badge">⚠ SIMULATED</span>
+              </div>
+              <div class="panel-body" id="detection-results" style="overflow-y:auto;max-height:calc(100vh - 280px);">
+                <div class="text-muted text-sm" style="padding:24px;text-align:center;">
+                  Upload an image and run detection to see results
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           PAGE: DECISION ENGINE
+      ══════════════════════════════════════════════ -->
+      <div class="page" id="page-decision-engine">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div>
+              <div class="page-title">DECISION ENGINE</div>
+              <div class="page-subtitle">Priority calculation: SEVERITY × PERSISTENCE × EXPOSURE × FEASIBILITY</div>
+            </div>
+            <select class="select-control" id="de-node-selector" style="min-width:300px;"></select>
+          </div>
+        </div>
+
+        <div class="two-col-equal">
+          <div class="panel" style="overflow-y:auto;max-height:calc(100vh - 200px);">
+            <div class="panel-header">
+              <span class="panel-title">PRIORITY CALCULATION</span>
+              <span class="live-indicator"><span class="live-dot"></span>LIVE</span>
+            </div>
+            <div class="panel-body" id="de-calc-panel">
+              <div class="text-muted text-sm" style="text-align:center;padding:24px;">Loading calculation...</div>
+            </div>
+          </div>
+
+          <!-- All Hotspots ranking -->
+          <div class="panel" style="overflow-y:auto;max-height:calc(100vh - 200px);">
+            <div class="panel-header">
+              <span class="panel-title">ALL HOTSPOTS — RANKED BY PRIORITY</span>
+            </div>
+            <div class="panel-body no-pad" id="de-all-hotspots" style="padding:8px;">
+              <!-- Rendered by Decision Engine -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           PAGE: INTERVENTIONS
+      ══════════════════════════════════════════════ -->
+      <div class="page" id="page-interventions">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div>
+              <div class="page-title">INTERVENTION MANAGEMENT</div>
+              <div class="page-subtitle">Field team dispatch, tracking and completion workflow</div>
+            </div>
+            <button class="btn btn-primary" onclick="navigateTo('hotspot-intelligence')">
+              + New Dispatch via Hotspots
+            </button>
+          </div>
+        </div>
+
+        <div id="interventions-list" style="max-height:calc(100vh - 180px);overflow-y:auto;">
+          <div class="text-muted text-sm" style="padding:24px;text-align:center;">Loading interventions...</div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           PAGE: RECOVERY & CIRCULARITY
+      ══════════════════════════════════════════════ -->
+      <div class="page" id="page-recovery-circularity">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div>
+              <div class="page-title">RECOVERY & CIRCULARITY</div>
+              <div class="page-subtitle">Material classification, traceability and circular recovery pathways</div>
+              <div class="sim-badge">⚠ SIMULATED RECOVERY DATA</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="rc-summary" style="max-height:calc(100vh - 220px);overflow-y:auto;">
+          <div class="text-muted text-sm" style="padding:24px;text-align:center;">Loading records...</div>
+        </div>
+
+        <div class="panel mt-md">
+          <div id="rc-traceability"></div>
+        </div>
+
+        <div class="panel mt-md" style="overflow-x:auto;">
+          <div class="panel-header"><span class="panel-title">COLLECTION RECORDS</span></div>
+          <div class="panel-body no-pad" id="rc-records" style="padding:0;"></div>
+        </div>
+
+        <!-- Charts row -->
+        <div class="two-col-equal mt-md">
+          <div class="panel">
+            <div class="panel-header"><span class="panel-title">MATERIAL DISTRIBUTION</span></div>
+            <div class="panel-body">
+              <div class="chart-wrapper" style="height:200px;">
+                <canvas id="rc-material-chart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><span class="panel-title">COASTGUARD INTELLIGENCE LOOP</span></div>
+            <div class="panel-body" style="font-size:11px;color:var(--text-secondary);line-height:2;">
+              <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
+                <span style="background:var(--accent-primary-dim);border:1px solid var(--border-normal);padding:4px 8px;border-radius:4px;font-weight:600;font-size:10px;letter-spacing:1px;color:var(--accent-primary);">SENSE</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="background:var(--accent-primary-dim);border:1px solid var(--border-normal);padding:4px 8px;border-radius:4px;font-weight:600;font-size:10px;letter-spacing:1px;color:var(--accent-primary);">DETECT</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="background:var(--accent-primary-dim);border:1px solid var(--border-normal);padding:4px 8px;border-radius:4px;font-weight:600;font-size:10px;letter-spacing:1px;color:var(--accent-primary);">PRIORITIZE</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="background:var(--accent-primary-dim);border:1px solid var(--border-normal);padding:4px 8px;border-radius:4px;font-weight:600;font-size:10px;letter-spacing:1px;color:var(--accent-primary);">INTERCEPT</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="background:var(--accent-primary-dim);border:1px solid var(--border-normal);padding:4px 8px;border-radius:4px;font-weight:600;font-size:10px;letter-spacing:1px;color:var(--accent-primary);">RECOVER</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="background:var(--accent-primary-dim);border:1px solid var(--border-normal);padding:4px 8px;border-radius:4px;font-weight:600;font-size:10px;letter-spacing:1px;color:var(--accent-primary);">CLASSIFY</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="background:var(--accent-primary-dim);border:1px solid var(--border-normal);padding:4px 8px;border-radius:4px;font-weight:600;font-size:10px;letter-spacing:1px;color:var(--accent-primary);">ROUTE</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="background:var(--accent-primary-dim);border:1px solid var(--border-normal);padding:4px 8px;border-radius:4px;font-weight:600;font-size:10px;letter-spacing:1px;color:var(--accent-primary);">VERIFY</span>
+              </div>
+              <div style="margin-top:16px;padding:12px;background:var(--bg-elevated);border-radius:var(--radius-sm);font-size:11px;color:var(--text-secondary);line-height:1.6;">
+                COASTGUARD does not stop at detecting plastic. It converts leakage evidence into prioritized intervention decisions and traceable recovery.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           PAGE: ANALYTICS
+      ══════════════════════════════════════════════ -->
+      <div class="page" id="page-analytics">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div>
+              <div class="page-title">ANALYTICS</div>
+              <div class="page-subtitle">Performance metrics, trends and system intelligence</div>
+              <div class="sim-badge">⚠ ALL DATA SIMULATED FOR DEMONSTRATION</div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="Analytics.init()">↺ Refresh</button>
+          </div>
+        </div>
+
+        <!-- Metric cards -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+          <div class="metric-card">
+            <div class="metric-card-value" id="an-total-recovery">—</div>
+            <div class="metric-card-label">Total Recovery</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-card-value" id="an-response-time">—</div>
+            <div class="metric-card-label">Avg Response Time</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-card-value" id="an-accuracy">—</div>
+            <div class="metric-card-label">Detection Accuracy</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-card-value" id="an-uptime">—</div>
+            <div class="metric-card-label">Sensor Uptime</div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="two-col-equal mb-md">
+          <div class="panel">
+            <div class="panel-header"><span class="panel-title">7-DAY LEAKAGE TREND</span></div>
+            <div class="panel-body">
+              <div class="chart-wrapper" style="height:180px;">
+                <canvas id="an-trend-chart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><span class="panel-title">24-HOUR PLASTIC BURDEN INDEX</span></div>
+            <div class="panel-body">
+              <div class="chart-wrapper" style="height:180px;">
+                <canvas id="an-24h-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col-equal">
+          <div class="panel">
+            <div class="panel-header"><span class="panel-title">HOTSPOT PRIORITY RANKING</span></div>
+            <div class="panel-body" id="an-ranking" style="overflow-y:auto;max-height:220px;"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><span class="panel-title">MATERIAL RECOVERY DISTRIBUTION</span></div>
+            <div class="panel-body">
+              <div class="chart-wrapper" style="height:200px;">
+                <canvas id="an-material-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           PAGE: FIELD NODES
+      ══════════════════════════════════════════════ -->
+      <div class="page" id="page-field-nodes">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div>
+              <div class="page-title">FIELD NODES</div>
+              <div class="page-subtitle">Hardware-ready telemetry endpoints & outfall sensor grid (OUT-01 to OUT-08)</div>
+              <div class="sim-badge">SIMULATED IoT NODES</div>
+            </div>
+            <div class="flex gap-sm">
+              <button class="btn btn-outline btn-sm" id="btn-node-view-table" onclick="FieldNodes.setView('table')">Table View</button>
+              <button class="btn btn-ghost btn-sm" id="btn-node-view-grid" onclick="FieldNodes.setView('grid')">Cards View</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="field-nodes-container">
+          <div id="field-nodes-table-wrap" class="panel" style="overflow-x:auto;">
+            <div class="panel-body no-pad">
+              <table class="data-table" id="field-nodes-table" style="width:100%;">
+                <thead>
+                  <tr>
+                    <th>NODE</th>
+                    <th>LOCATION</th>
+                    <th>STATUS</th>
+                    <th>WATER LEVEL</th>
+                    <th>FLOW RATE</th>
+                    <th>PLASTIC BURDEN</th>
+                    <th>SIGNAL</th>
+                    <th>LAST SEEN</th>
+                    <th>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="field-nodes-tbody">
+                  <tr><td colspan="9" style="text-align:center;padding:24px;" class="text-muted">Loading field nodes...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="node-grid" id="field-nodes-grid" style="display:none;margin-top:16px;">
+            <div class="text-muted text-sm" style="padding:24px;text-align:center;grid-column:1/-1;">Loading nodes...</div>
+          </div>
+        </div>
+
+        <!-- Node detail panel -->
+        <div id="node-detail-panel" class="panel mt-md" style="display:none;"></div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           PAGE: JUDGE DEMO MODE
+      ══════════════════════════════════════════════ -->
+      <div class="page" id="page-demo-mode">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div>
+              <div class="page-title">JUDGE DEMO MODE</div>
+              <div class="page-subtitle">Controlled 78-second scenario demonstrating the full COASTGUARD intelligence loop</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 400px;gap:24px;">
+          <!-- Demo panel -->
+          <div>
+            <div class="demo-panel" style="margin-bottom:20px;">
+              <div style="font-size:22px;font-weight:700;color:var(--text-primary);letter-spacing:2px;margin-bottom:8px;">
+                COASTGUARD INTELLIGENCE DEMONSTRATION
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.6;">
+                This 78-second controlled scenario demonstrates the complete COASTGUARD loop:<br>
+                Detection → Intelligence → Prioritization → Intervention → Recovery → Verification
+              </div>
+              <button class="demo-btn-main" id="btn-run-demo" onclick="DemoMode.start()">
+                <span>▶</span> RUN COASTGUARD DEMO
+              </button>
+              <div style="margin-top:12px;">
+                <button class="btn btn-ghost btn-sm" onclick="DemoMode.stop()">⏹ Stop Demo</button>
+              </div>
+
+              <div style="margin-top:24px;padding:16px;background:var(--bg-panel);border-radius:var(--radius-md);text-align:left;">
+                <div style="font-size:10px;font-weight:600;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:10px;">SCENARIO MODES TRIGGERED</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <span style="padding:4px 8px;background:var(--accent-primary-dim);border:1px solid var(--border-normal);border-radius:3px;font-size:9px;font-weight:600;letter-spacing:1px;color:var(--accent-primary);">NORMAL → MONSOON EVENT</span>
+                  <span style="padding:4px 8px;background:var(--accent-primary-dim);border:1px solid var(--border-normal);border-radius:3px;font-size:9px;font-weight:600;letter-spacing:1px;color:var(--accent-primary);">AI DETECTION</span>
+                  <span style="padding:4px 8px;background:var(--accent-primary-dim);border:1px solid var(--border-normal);border-radius:3px;font-size:9px;font-weight:600;letter-spacing:1px;color:var(--accent-primary);">PRIORITY ESCALATION</span>
+                  <span style="padding:4px 8px;background:var(--accent-primary-dim);border:1px solid var(--border-normal);border-radius:3px;font-size:9px;font-weight:600;letter-spacing:1px;color:var(--accent-primary);">ALERT DISPATCH</span>
+                  <span style="padding:4px 8px;background:var(--accent-primary-dim);border:1px solid var(--border-normal);border-radius:3px;font-size:9px;font-weight:600;letter-spacing:1px;color:var(--accent-primary);">INTERVENTION</span>
+                  <span style="padding:4px 8px;background:var(--accent-primary-dim);border:1px solid var(--border-normal);border-radius:3px;font-size:9px;font-weight:600;letter-spacing:1px;color:var(--accent-primary);">RECOVERY</span>
+                  <span style="padding:4px 8px;background:var(--accent-primary-dim);border:1px solid var(--border-normal);border-radius:3px;font-size:9px;font-weight:600;letter-spacing:1px;color:var(--accent-primary);">CLASSIFICATION</span>
+                  <span style="padding:4px 8px;background:var(--accent-primary-dim);border:1px solid var(--border-normal);border-radius:3px;font-size:9px;font-weight:600;letter-spacing:1px;color:var(--accent-primary);">CIRCULARITY</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Simulation manual controls -->
+            <div class="panel">
+              <div class="panel-header"><span class="panel-title">MANUAL SIMULATION CONTROLS</span></div>
+              <div class="panel-body">
+                <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">Trigger individual scenarios for demonstration</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <button class="btn btn-outline btn-sm" onclick="API.setSimMode('normal').then(() => Toast.show('info','Mode','Normal',2000))">Normal</button>
+                  <button class="btn btn-outline btn-sm" onclick="API.setSimMode('monsoon').then(() => Toast.show('warning','Mode','Monsoon Event',2000))">🌧 Monsoon</button>
+                  <button class="btn btn-outline btn-sm" onclick="API.setSimMode('plastic_surge').then(() => Toast.show('critical','Mode','Plastic Surge',2000))">⚠ Plastic Surge</button>
+                  <button class="btn btn-outline btn-sm" onclick="API.setSimMode('node_failure').then(() => Toast.show('critical','Mode','Node Failure',2000))">💀 Node Failure</button>
+                  <button class="btn btn-outline btn-sm" onclick="API.setSimMode('recovery').then(() => Toast.show('info','Mode','Recovery Event',2000))">♻ Recovery</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Timeline -->
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">DEMO TIMELINE</span>
+              <span id="sim-mode-indicator" class="badge badge-online">READY</span>
+            </div>
+            <div class="panel-body no-pad" style="padding:8px;">
+              <div id="demo-timeline" class="demo-timeline">
+                <!-- Rendered by DemoMode module -->
+                <div class="text-muted text-sm" style="padding:16px;text-align:center;">
+                  Click "RUN COASTGUARD DEMO" to begin
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           PAGE: SETTINGS & ARCHITECTURE
+      ══════════════════════════════════════════════ -->
+      <div class="page" id="page-settings">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div>
+              <div class="page-title">SYSTEM SETTINGS &amp; ARCHITECTURE</div>
+              <div class="page-subtitle">Operational threshold calibration and ESP32-S3 / MQTT integration configuration</div>
+            </div>
+            <button class="btn btn-primary" onclick="SettingsPage._saveConfig()">Save Configuration</button>
+          </div>
+        </div>
+
+        <div id="settings-content" style="overflow-y:auto;max-height:calc(100vh - 200px);">
+          <!-- Rendered by SettingsPage module -->
+        </div>
+      </div>
+
+    </div><!-- end .page-area -->
+  </div><!-- end .main-area -->
+</div><!-- end #app -->
+
+<!-- ─── NOTIFICATION PANEL ──────────────────────────────── -->
+<div id="notif-panel">
+  <div style="font-size:11px;font-weight:600;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:12px;">NOTIFICATIONS</div>
+  <div id="notif-list" class="alert-list"></div>
+</div>
+
+<!-- ─── TOAST CONTAINER ─────────────────────────────────── -->
+<div id="toast-container"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════════════ -->
+<!-- External libraries -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+<!-- COASTGUARD Modules (order matters) -->
+<script src="/js/modules/api.js"></script>
+<script src="/js/modules/websocket.js"></script>
+<script src="/js/modules/state.js"></script>
+<script src="/js/modules/ui.js"></script>
+<script src="/js/modules/map.js"></script>
+<script src="/js/modules/charts.js"></script>
+<script src="/js/modules/pageCommandCenter.js"></script>
+<script src="/js/modules/pageLiveMonitoring.js"></script>
+<script src="/js/modules/pageHotspotIntelligence.js"></script>
+<script src="/js/modules/pageDecisionEngine.js"></script>
+<script src="/js/modules/pageAIVision.js"></script>
+<script src="/js/modules/pageInterventions.js"></script>
+<script src="/js/modules/pageRecovery.js"></script>
+<script src="/js/modules/pageAnalytics.js"></script>
+<script src="/js/modules/pageSettings.js"></script>
+<script src="/js/modules/demoMode.js"></script>
+<script src="/js/app.js"></script>
+
+</body>
+</html>
