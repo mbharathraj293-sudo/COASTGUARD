@@ -21,7 +21,7 @@
   <div class="login-bg-grid"></div>
   <div class="login-card">
     <div class="login-logo">
-      <div class="logo-icon">🌊</div>
+      <img src="/assets/logo.png" alt="COASTGUARD Ocean Shield Wave Emblem" class="login-logo-img">
       <h1>COASTGUARD</h1>
       <p>COASTAL PLASTIC INTELLIGENCE PLATFORM</p>
     </div>
@@ -61,6 +61,7 @@
           <div class="logo-sub">Intelligence Platform</div>
         </div>
       </div>
+      <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close navigation">✕</button>
     </div>
 
     <div class="sidebar-status">
@@ -160,6 +161,12 @@
 
     <!-- TOPBAR -->
     <header class="topbar">
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open navigation menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
       <div class="topbar-title-group">
         <div class="topbar-title" id="topbar-page-title">COMMAND CENTER</div>
         <div class="topbar-desc" id="topbar-page-desc">Real-time coastal leakage intelligence and response overview</div>
@@ -282,7 +289,7 @@
                 </div>
 
                 <!-- Visual Factors -->
-                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px;text-align:center;">
+                <div class="dec-factors-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px;text-align:center;">
                   <div style="background:#f8fafc;padding:5px;border-radius:4px;border:1px solid #e2e8f0;">
                     <div style="font-size:8px;color:var(--text-muted);font-weight:700;">SEVERITY</div>
                     <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--status-critical);" id="cc-dec-sev">0.88</div>
@@ -386,7 +393,7 @@
             <span class="badge badge-online" style="font-size:9px;">ALL SUBSYSTEMS NOMINAL</span>
           </div>
           <div class="panel-body" style="padding:10px 14px;">
-            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;text-align:center;">
+            <div class="sys-health-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;text-align:center;">
               <div style="background:#f8fafc;padding:8px 6px;border-radius:4px;border:1px solid #e2e8f0;">
                 <div style="font-size:8px;color:var(--text-muted);font-weight:700;letter-spacing:0.5px;">BACKEND</div>
                 <div style="font-size:11px;font-weight:800;color:var(--status-good);margin-top:2px;">CONNECTED</div>
@@ -549,7 +556,7 @@
           <button class="filter-btn hs-filter-btn" data-filter="low" onclick="HotspotIntelligence.setFilter('low')">Low</button>
         </div>
 
-        <div style="display:grid;grid-template-columns:320px 1fr 300px;gap:16px;height:calc(100vh - 240px);">
+        <div class="hotspot-layout-grid" style="display:grid;grid-template-columns:320px 1fr 300px;gap:16px;height:calc(100vh - 240px);">
           <!-- List -->
           <div style="overflow-y:auto;" id="hotspot-list">
             <div class="text-muted text-sm" style="padding:16px;text-align:center;">Loading...</div>
@@ -788,7 +795,7 @@
         </div>
 
         <!-- Metric cards -->
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+        <div class="analytics-metrics-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
           <div class="metric-card">
             <div class="metric-card-value" id="an-total-recovery">—</div>
             <div class="metric-card-label">Total Recovery</div>
@@ -907,7 +914,7 @@
           </div>
         </div>
 
-        <div style="display:grid;grid-template-columns:1fr 400px;gap:24px;">
+        <div class="demo-mode-grid" style="display:grid;grid-template-columns:1fr 400px;gap:24px;">
           <!-- Demo panel -->
           <div>
             <div class="demo-panel" style="margin-bottom:20px;">
@@ -996,6 +1003,9 @@
     </div><!-- end .page-area -->
   </div><!-- end .main-area -->
 </div><!-- end #app -->
+
+<!-- Mobile Navigation Backdrop -->
+<div id="mobile-nav-backdrop" class="mobile-nav-backdrop"></div>
 
 <!-- ─── NOTIFICATION PANEL ──────────────────────────────── -->
 <div id="notif-panel">
