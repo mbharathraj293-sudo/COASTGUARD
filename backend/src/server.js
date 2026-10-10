@@ -61,12 +61,19 @@ app.get('*', (req, res) => {
 
 // ─── START SERVER ───────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  console.log(`\n🌊 COASTGUARD Backend Active`);
-  console.log(`   Server: http://localhost:${PORT}`);
-  console.log(`   API:    http://localhost:${PORT}/api`);
-  console.log(`   Mode:   ${process.env.NODE_ENV || 'development'}`);
-  console.log(`   ⚠  All sensor data is SIMULATED for demonstration.\n`);
-});
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
+  server.listen(PORT, () => {
+    console.log(`\n🌊 COASTGUARD Backend Active`);
+    console.log(`   Server: http://localhost:${PORT}`);
+    console.log(`   API:    http://localhost:${PORT}/api`);
+    console.log(`   Mode:   ${process.env.NODE_ENV || 'development'}`);
+    console.log(`   ⚠  All sensor data is SIMULATED for demonstration.\n`);
+  });
+}
 
-module.exports = { app, server };
+// Export Express app directly for Vercel Serverless Function runtime, while preserving named exports
+module.exports = app;
+module.exports.app = app;
+module.exports.server = server;
+module.exports.default = app;
+
